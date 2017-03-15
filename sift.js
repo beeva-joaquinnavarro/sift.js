@@ -132,7 +132,7 @@
      */
 
     $in: function(a, b) {
-
+      if (a.indexOf(null) !== -1) a.push(undefined); // Fix error when condition is {field: {$in: [null]}}
       if (b instanceof Array) {
         for (var i = b.length; i--;) {
           if (~a.indexOf(comparable(get(b, i)))) return true;

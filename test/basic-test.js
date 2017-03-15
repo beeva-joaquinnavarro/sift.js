@@ -118,4 +118,28 @@ describe(__filename + "#", function() {
 
     assert.equal(filtered.length, 1);
   });
+  it("$in: [null] does hit when field does not exist", function(){
+    var sifter = sift({age: {$in: [null]}});
+
+    var people = [
+      {age: "matched"},
+      {missed: 1}
+    ];
+    var filtered = people.filter(sifter);
+
+    assert.equal(filtered.length, 1);
+    assert.equal(filtered[0].missed, 1);
+  });
+  it("$nin: [null] does hit when field is present", function(){
+    var sifter = sift({age: {$nin: [null]}});
+
+    var people = [
+      {age: "matched"},
+      {missed: 1}
+    ];
+    var filtered = people.filter(sifter);
+
+    assert.equal(filtered.length, 1);
+    assert.equal(filtered[0].age, "matched");
+  });
 });
